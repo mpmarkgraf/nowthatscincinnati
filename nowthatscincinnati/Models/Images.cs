@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace nowthatscincinnati.Models
 {
@@ -15,6 +16,15 @@ namespace nowthatscincinnati.Models
         public byte[] Stream { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
+        [NotMapped]
+
+        public string Url
+        {
+            get
+            {
+                return "data:image;base64," + Convert.ToBase64String(Stream);
+            }
+        }
 
         public virtual ICollection<Events> Events { get; set; }
     }

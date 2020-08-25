@@ -51,7 +51,7 @@ namespace nowthatscincinnati.Models
 
                 entity.Property(e => e.UserId)
                     .HasColumnName("user_id")
-                    .HasDefaultValueSql("((1))");
+                    .HasDefaultValueSql("((3))"); // Change to 1 for Production database
 
                 entity.Property(e => e.Venue)
                     .IsRequired()

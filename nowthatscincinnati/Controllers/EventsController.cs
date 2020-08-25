@@ -83,7 +83,9 @@ namespace nowthatscincinnati.Controllers
         // GET: Events/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Events deleteEvent = _context.Events.Include(e => e.Image).FirstOrDefault();
+
+            return View(deleteEvent);
         }
 
         // POST: Events/Delete/5
@@ -93,9 +95,21 @@ namespace nowthatscincinnati.Controllers
         {
             try
             {
+                Events deleteEvent = _context.Events.Include(e => e.Image).FirstOrDefault();
+
+                _context.Events.Remove(deleteEvent);
+                _context.SaveChanges();
+
+                // If image is the default, don't delete. Change to 1 for Production database
+                if (deleteEvent.Image.Id != 3)
+                {
+                    _context.Images.Remove(deleteEvent.Image);
+                    _context.SaveChanges();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }
@@ -103,33 +117,39 @@ namespace nowthatscincinnati.Controllers
 
         private int UploadImage(IFormFile file)
         {
-            try
+            if (file != null)
             {
-                Images image = new Images
+                try
                 {
-                    FileName = file.FileName,
-                    CreatedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now
-                };
 
-                if (file.Length > 0)
-                {
-                    using (var ms = new MemoryStream())
+                    Images image = new Images
                     {
-                        file.CopyTo(ms);
-                        image.Stream = ms.ToArray();
+                        FileName = file.FileName,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now
+                    };
+
+                    if (file.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            file.CopyTo(ms);
+                            image.Stream = ms.ToArray();
+                        }
                     }
+
+                    _context.Images.Add(image);
+                    _context.SaveChanges();
+
+                    return image.Id;
                 }
+                catch (Exception ex)
+                {
 
-                _context.Images.Add(image);
-                _context.SaveChanges();
+                }
+            }
 
-                return image.Id;
-            }
-            catch (Exception ex)
-            {
-                return 0;
-            }
+            return 3; //  Change to 1 for Production database
         }
     }
 }

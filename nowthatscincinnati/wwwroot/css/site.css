@@ -1,10 +1,15 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+nav {
+    z-index: 2;
+    margin: 0;
+}
+
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
@@ -62,6 +67,7 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -70,7 +76,21 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-.listImage{
+.home {
+    background-image: url("../images/background.jpg");
+    position: absolute;
+    top: 73px;
+    bottom: 77px;
+    left: 14%;
+    right: 14%;
+}
+
+.welcomeImg {
+    width: 80%;
+    margin-top: 10.5%;
+}
+
+.listImage {
     height: 100px;
 }
 
