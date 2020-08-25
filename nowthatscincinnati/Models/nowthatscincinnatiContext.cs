@@ -20,19 +20,22 @@ namespace nowthatscincinnati.Models
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("server=localhost;database=nowthatscincinnati;Trusted_Connection=True;");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Events>(entity =>
             {
                 entity.ToTable("events");
 
-                entity.HasIndex(e => e.ImageId)
-                    .HasName("UQ__events__DC9AC954D5650493")
-                    .IsUnique();
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Date)
                     .HasColumnName("date")
@@ -46,7 +49,9 @@ namespace nowthatscincinnati.Models
                     .IsRequired()
                     .HasColumnName("facebook_link");
 
-                entity.Property(e => e.ImageId).HasColumnName("image_id");
+                entity.Property(e => e.ImageId)
+                    .HasColumnName("image_id")
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
@@ -65,25 +70,27 @@ namespace nowthatscincinnati.Models
                 entity.Property(e => e.VenueLink).HasColumnName("venue_link");
 
                 entity.HasOne(d => d.Image)
-                    .WithOne(p => p.Event)
-                    .HasForeignKey<Events>(d => d.ImageId)
+                    .WithMany(p => p.Events)
+                    .HasForeignKey(d => d.ImageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__events__image_id__44FF419A");
+                    .HasConstraintName("FK__events__image_id__45F365D3");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Events)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__events__user_id__45F365D3");
+                    .HasConstraintName("FK__events__user_id__46E78A0C");
             });
 
             modelBuilder.Entity<Images>(entity =>
             {
                 entity.ToTable("images");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.HasIndex(e => e.Rowguid)
+                    .HasName("UQ__images__D7A3AA551B57B095")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnName("created_date")
@@ -97,6 +104,8 @@ namespace nowthatscincinnati.Models
                     .IsRequired()
                     .HasColumnName("name");
 
+                entity.Property(e => e.Rowguid).HasColumnName("ROWGUID");
+
                 entity.Property(e => e.Stream)
                     .IsRequired()
                     .HasColumnName("stream");
@@ -106,9 +115,7 @@ namespace nowthatscincinnati.Models
             {
                 entity.ToTable("roles");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Role)
                     .IsRequired()
@@ -120,9 +127,7 @@ namespace nowthatscincinnati.Models
             {
                 entity.ToTable("users");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Email)
                     .IsRequired()

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace nowthatscincinnati.Models
@@ -9,7 +10,8 @@ namespace nowthatscincinnati.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public Guid ImageId { get; set; }
+        public int ImageId { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? Date { get; set; }
         public string Venue { get; set; }
         public string Description { get; set; }

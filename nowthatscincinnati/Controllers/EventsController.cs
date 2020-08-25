@@ -101,7 +101,7 @@ namespace nowthatscincinnati.Controllers
             }
         }
 
-        private Guid UploadImage(IFormFile file)
+        private int UploadImage(IFormFile file)
         {
             try
             {
@@ -128,7 +128,7 @@ namespace nowthatscincinnati.Controllers
             }
             catch (Exception ex)
             {
-                return new Guid();
+                return 0;
             }
         }
     }

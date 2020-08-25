@@ -16,13 +16,13 @@ TO FILEGROUP fs_fg_filestream
 GO  
 
 CREATE TABLE roles (
-	id int NOT NULL PRIMARY KEY,
+	id int NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	role nvarchar(50) NOT NULL
 );
 GO
 
 CREATE TABLE users (
-	id int NOT NULL PRIMARY KEY,
+	id int NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	first_name nvarchar(max) NOT NULL,
 	last_name nvarchar(max) NOT NULL,
     username nvarchar(max) NOT NULL,
@@ -35,18 +35,19 @@ CREATE TABLE users (
 GO
 
 CREATE TABLE images (
-	id UNIQUEIDENTIFIER ROWGUIDCOL NOT NULL PRIMARY KEY,
+	id int NOT NULL IDENTITY(1,1) PRIMARY KEY,
     name nvarchar(max) NOT NULL,
 	stream varbinary(max) FILESTREAM NOT NULL,
     created_date datetime NOT NULL,
-	modified_date datetime NOT NULL
+	modified_date datetime NOT NULL,
+	[ROWGUID] UNIQUEIDENTIFIER ROWGUIDCOL NOT NULL UNIQUE,
 );
 GO
 
 CREATE TABLE events (
-	id int NOT NULL PRIMARY KEY,
+	id int NOT NULL IDENTITY(1,1) PRIMARY KEY,
     title nvarchar(max) NOT NULL DEFAULT '(no title)',
-	image_id UNIQUEIDENTIFIER ROWGUIDCOL NOT NULL UNIQUE,
+	image_id int NOT NULL DEFAULT 1,
     date datetime NULL,
 	venue nvarchar(max) NOT NULL DEFAULT '(no venue)',
 	description nvarchar(max) NULL DEFAULT '(no venue)',
@@ -58,7 +59,7 @@ CREATE TABLE events (
 );
 GO
 
-INSERT INTO [dbo].[roles] VALUES (1, N'Admin')
-INSERT INTO [dbo].[roles] VALUES (2, N'User')
+INSERT INTO [dbo].[roles] VALUES (N'Admin')
+INSERT INTO [dbo].[roles] VALUES (N'User')
 
-INSERT INTO [dbo].[users] VALUES (1, N'Admin', N'Admin', N'admin', N'password', 1, N'mpmarkgraf@gmail.com', 1)
+INSERT INTO [dbo].[users] VALUES (N'Admin', N'Admin', N'admin', N'password', 1, N'mpmarkgraf@gmail.com', 1)
