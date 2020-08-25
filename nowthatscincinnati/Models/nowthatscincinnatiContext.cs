@@ -17,6 +17,7 @@ namespace nowthatscincinnati.Models
 
         public virtual DbSet<Events> Events { get; set; }
         public virtual DbSet<Images> Images { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,6 +25,10 @@ namespace nowthatscincinnati.Models
             modelBuilder.Entity<Events>(entity =>
             {
                 entity.ToTable("events");
+
+                entity.HasIndex(e => e.ImageId)
+                    .HasName("UQ__events__DC9AC954D5650493")
+                    .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -41,16 +46,16 @@ namespace nowthatscincinnati.Models
                     .IsRequired()
                     .HasColumnName("facebook_link");
 
-                entity.Property(e => e.ImageId)
-                    .HasColumnName("image_id")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.ImageId).HasColumnName("image_id");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasColumnName("title")
                     .HasDefaultValueSql("('(no title)')");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UserId)
+                    .HasColumnName("user_id")
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Venue)
                     .IsRequired()
@@ -60,25 +65,21 @@ namespace nowthatscincinnati.Models
                 entity.Property(e => e.VenueLink).HasColumnName("venue_link");
 
                 entity.HasOne(d => d.Image)
-                    .WithMany(p => p.Events)
-                    .HasForeignKey(d => d.ImageId)
+                    .WithOne(p => p.Event)
+                    .HasForeignKey<Events>(d => d.ImageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__events__image_id__4CA06362");
+                    .HasConstraintName("FK__events__image_id__44FF419A");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Events)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__events__user_id__4D94879B");
+                    .HasConstraintName("FK__events__user_id__45F365D3");
             });
 
             modelBuilder.Entity<Images>(entity =>
             {
                 entity.ToTable("images");
-
-                entity.HasIndex(e => e.Rowguid)
-                    .HasName("UQ__images__D7A3AA5593EC3770")
-                    .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -96,11 +97,23 @@ namespace nowthatscincinnati.Models
                     .IsRequired()
                     .HasColumnName("name");
 
-                entity.Property(e => e.Rowguid).HasColumnName("ROWGUID");
-
                 entity.Property(e => e.Stream)
                     .IsRequired()
                     .HasColumnName("stream");
+            });
+
+            modelBuilder.Entity<Roles>(entity =>
+            {
+                entity.ToTable("roles");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Role)
+                    .IsRequired()
+                    .HasColumnName("role")
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Users>(entity =>
@@ -129,9 +142,19 @@ namespace nowthatscincinnati.Models
                     .IsRequired()
                     .HasColumnName("password");
 
+                entity.Property(e => e.RoleId)
+                    .HasColumnName("role_id")
+                    .HasDefaultValueSql("((2))");
+
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasColumnName("username");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__users__role_id__3B75D760");
             });
 
             OnModelCreatingPartial(modelBuilder);

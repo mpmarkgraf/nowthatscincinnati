@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace nowthatscincinnati.Models
 {
@@ -7,13 +9,15 @@ namespace nowthatscincinnati.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public int ImageId { get; set; }
+        public Guid ImageId { get; set; }
         public DateTime? Date { get; set; }
         public string Venue { get; set; }
         public string Description { get; set; }
         public string VenueLink { get; set; }
         public string FacebookLink { get; set; }
         public int UserId { get; set; }
+        [NotMapped]
+        public IFormFile Upload { get; set; }
 
         public virtual Images Image { get; set; }
         public virtual Users User { get; set; }
