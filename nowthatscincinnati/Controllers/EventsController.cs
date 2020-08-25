@@ -62,19 +62,30 @@ namespace nowthatscincinnati.Controllers
         // GET: Events/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Events editEvent = _context.Events.Include(e => e.Image).FirstOrDefault();
+
+            return View(editEvent);
         }
 
         // POST: Events/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit([Bind("Id,Title,ImageId,Date,Venue,Description,VenueLink,FacebookLink,UserId,Upload")] Events editEvent)
         {
             try
             {
+                // If Image isn't updated, only update Event
+                if (editEvent.Upload != null)
+                {
+                    UpdateImage(editEvent.ImageId, editEvent.Upload);
+                }
+
+                _context.Events.Update(editEvent);
+                _context.SaveChanges();
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }
@@ -150,6 +161,22 @@ namespace nowthatscincinnati.Controllers
             }
 
             return 3; //  Change to 1 for Production database
+        }
+
+        private void UpdateImage(int id, IFormFile file)
+        {
+            Images image = _context.Images.Find(id);
+
+            if (file.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    image.Stream = ms.ToArray();
+                }
+
+                _context.Images.Update(image);
+            }
         }
     }
 }

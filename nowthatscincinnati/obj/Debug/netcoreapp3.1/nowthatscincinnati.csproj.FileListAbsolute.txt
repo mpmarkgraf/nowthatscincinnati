@@ -224,3 +224,4 @@ C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreap
 C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Create.cshtml.g.cs
 C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\nowthatscincinnati.csprojAssemblyReference.cache
 C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Delete.cshtml.g.cs
+C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Edit.cshtml.g.cs
