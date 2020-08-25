@@ -3,18 +3,6 @@ GO
 USE nowthatscincinnati
 GO
 
-ALTER DATABASE nowthatscincinnati
-ADD FILEGROUP fs_fg_filestream CONTAINS FILESTREAM  
-GO  
-ALTER DATABASE nowthatscincinnati
-ADD FILE  
-(  
-    NAME= 'filestream',  
-    FILENAME = 'C:\Workspace\Portfolio\nowthatscincinnati\database\filestream'
-)  
-TO FILEGROUP fs_fg_filestream  
-GO  
-
 CREATE TABLE roles (
 	id int NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	role nvarchar(50) NOT NULL
@@ -36,11 +24,10 @@ GO
 
 CREATE TABLE images (
 	id int NOT NULL IDENTITY(1,1) PRIMARY KEY,
-    name nvarchar(max) NOT NULL,
-	stream varbinary(max) FILESTREAM NOT NULL,
+    filename nvarchar(max) NOT NULL,
+	stream varbinary(max) NOT NULL,
     created_date datetime NOT NULL,
-	modified_date datetime NOT NULL,
-	[ROWGUID] UNIQUEIDENTIFIER ROWGUIDCOL NOT NULL UNIQUE,
+	modified_date datetime NOT NULL
 );
 GO
 

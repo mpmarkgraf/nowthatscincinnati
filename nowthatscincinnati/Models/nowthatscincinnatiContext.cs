@@ -20,15 +20,6 @@ namespace nowthatscincinnati.Models
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("server=localhost;database=nowthatscincinnati;Trusted_Connection=True;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Events>(entity =>
@@ -86,10 +77,6 @@ namespace nowthatscincinnati.Models
             {
                 entity.ToTable("images");
 
-                entity.HasIndex(e => e.Rowguid)
-                    .HasName("UQ__images__D7A3AA551B57B095")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedDate)
@@ -100,11 +87,9 @@ namespace nowthatscincinnati.Models
                     .HasColumnName("modified_date")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.FileName)
                     .IsRequired()
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Rowguid).HasColumnName("ROWGUID");
+                    .HasColumnName("file_name");
 
                 entity.Property(e => e.Stream)
                     .IsRequired()

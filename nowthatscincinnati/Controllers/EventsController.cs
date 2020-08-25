@@ -107,7 +107,7 @@ namespace nowthatscincinnati.Controllers
             {
                 Images image = new Images
                 {
-                    Name = file.FileName,
+                    FileName = file.FileName,
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now
                 };
