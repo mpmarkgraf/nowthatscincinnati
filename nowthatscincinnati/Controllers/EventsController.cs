@@ -23,20 +23,20 @@ namespace nowthatscincinnati.Controllers
         public ActionResult Index()
         {
             var events = _context.Events.Include(e => e.Image);
-
             return View(events);
         }
 
         // GET: Events/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Events detailsEvent = _context.Events.Where(e => e.Id == id).Include(e => e.Image).FirstOrDefault();
+            return PartialView(detailsEvent);
         }
 
         // GET: Events/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Events/Create
@@ -44,27 +44,31 @@ namespace nowthatscincinnati.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Title,Date,Venue,Description,VenueLink,FacebookLink,Upload")] Events newEvent)
         {
+            //if (!ModelState.IsValid) // Fix this later
+            //{
+            //    return PartialView();
+            //}
+
             try
             {
                 newEvent.ImageId = UploadImage(newEvent.Upload);
 
                 _context.Add(newEvent);
                 _context.SaveChanges();
-
-                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                return View();
+                
             }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Events/Edit/5
         public ActionResult Edit(int id)
         {
-            Events editEvent = _context.Events.Include(e => e.Image).FirstOrDefault();
-
-            return View(editEvent);
+            Events editEvent = _context.Events.Where(e => e.Id == id).Include(e => e.Image).FirstOrDefault();
+            return PartialView(editEvent);
         }
 
         // POST: Events/Edit/5
@@ -77,7 +81,11 @@ namespace nowthatscincinnati.Controllers
                 // If Image isn't updated, only update Event
                 if (editEvent.Upload != null)
                 {
-                    UpdateImage(editEvent.ImageId, editEvent.Upload);
+                    if (editEvent.ImageId != 3)
+                        UpdateImage(editEvent.ImageId, editEvent.Upload);
+                    else
+                        editEvent.ImageId = UploadImage(editEvent.Upload);
+                    
                 }
 
                 _context.Events.Update(editEvent);
@@ -94,27 +102,26 @@ namespace nowthatscincinnati.Controllers
         // GET: Events/Delete/5
         public ActionResult Delete(int id)
         {
-            Events deleteEvent = _context.Events.Include(e => e.Image).FirstOrDefault();
-
-            return View(deleteEvent);
+            Events deleteEvent = _context.Events.Where(e => e.Id == id).Include(e => e.Image).FirstOrDefault();
+            return PartialView(deleteEvent);
         }
 
         // POST: Events/Delete/5
         [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeletePost([Bind("Id,ImageId")] Events deleteEvent)
         {
             try
             {
-                Events deleteEvent = _context.Events.Include(e => e.Image).FirstOrDefault();
-
                 _context.Events.Remove(deleteEvent);
                 _context.SaveChanges();
 
-                // If image is the default, don't delete. Change to 1 for Production database
-                if (deleteEvent.Image.Id != 3)
+                // If image is the default image, don't delete. Change to 1 for Production database
+                if (deleteEvent.ImageId != 3)
                 {
-                    _context.Images.Remove(deleteEvent.Image);
+                    Images image = new Images() { Id = deleteEvent.ImageId };
+                    _context.Images.Remove(image);
                     _context.SaveChanges();
                 }
 

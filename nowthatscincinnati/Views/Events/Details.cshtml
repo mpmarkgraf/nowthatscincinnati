@@ -1,0 +1,64 @@
+﻿@model nowthatscincinnati.Models.Events
+
+<h2 class="modal-title">Event Details</h2>
+<hr />
+<div>
+    <div class="center">
+        <img class="details-img" src="@Model.Image.Url" />
+    </div>
+    <div class="details-row">
+        <div>
+            <div>
+                @Html.DisplayNameFor(model => model.Title)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Title)
+            </div>
+        </div>
+        <div>
+            <div>
+                @Html.DisplayNameFor(model => model.Date)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Date)
+            </div>
+        </div>
+        <div>
+            <div>
+                @Html.DisplayNameFor(model => model.Venue)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Venue)
+            </div>
+        </div>
+        <div>
+            <div>
+                @Html.DisplayNameFor(model => model.Description)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.Description)
+            </div>
+        </div>
+        <div>
+            <div>
+                @Html.DisplayNameFor(model => model.VenueLink)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.VenueLink)
+            </div>
+        </div>
+        <div>
+            <div>
+                @Html.DisplayNameFor(model => model.FacebookLink)
+            </div>
+            <div>
+                @Html.DisplayFor(model => model.FacebookLink)
+            </div>
+        </div>
+    </div>
+
+    <div class="details-event-btns">
+        <input type="submit" value="Edit" class="btn btn-primary edit-event-btn" data-url="Events/Edit/@Model.Id" />
+        <input id="details-event-back-btn" type="button" value="Back" class="btn btn-light" />
+    </div>
+</div>

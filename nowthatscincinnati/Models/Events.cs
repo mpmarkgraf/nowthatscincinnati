@@ -9,6 +9,7 @@ namespace nowthatscincinnati.Models
     public partial class Events
     {
         public int Id { get; set; }
+        [Required]
         public string Title { get; set; }
         public int ImageId { get; set; }
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]

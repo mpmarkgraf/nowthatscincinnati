@@ -220,8 +220,9 @@ C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\bin\Debug\netcoreap
 C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\nowthatscincinnati.csproj.CoreCompileInputs.cache
 C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\nowthatscincinnati.MvcApplicationPartsAssemblyInfo.cache
-C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Index.cshtml.g.cs
-C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Create.cshtml.g.cs
 C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\nowthatscincinnati.csprojAssemblyReference.cache
+C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Create.cshtml.g.cs
 C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Delete.cshtml.g.cs
+C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Details.cshtml.g.cs
 C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Edit.cshtml.g.cs
+C:\Workspace\Portfolio\nowthatscincinnati\nowthatscincinnati\obj\Debug\netcoreapp3.1\Razor\Views\Events\Index.cshtml.g.cs

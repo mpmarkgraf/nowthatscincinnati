@@ -7,16 +7,16 @@
 <h1>Events</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button id="create-event-btn" class="btn btn-primary" data-url="@Url.Action("Create")">Create New</button>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Venue)
@@ -31,32 +31,66 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
-                <tr>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Venue)
-                    </td>
-                    <td class="description">
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        <img class="listImage" src="@item.Image.Url" />
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                <a class="details-event-btn" href="#" data-url="Events/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Venue)
+            </td>
+            <td class="description">
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <img class="list-img details-event-btn" src="@item.Image.Url" data-url="Events/Details/@item.Id" />
+            </td>
+            <td class="btn-group">
+                <button class="edit-event-btn btn btn-primary aux-btns" data-url="Events/Edit/@item.Id"><i class="fas fa-edit"></i></button>
+                <button class="delete-event-btn btn btn-danger aux-btns" data-url="Events/Delete/@item.Id"><i class="fas fa-trash-alt"></i></button>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 
-<div>
-
+<div id="create-event-modal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="create-event-modal-content"></div>
+        </div>
+    </div>
 </div>
+
+<div id="edit-event-modal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="edit-event-modal-content"></div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-event-modal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="delete-event-modal-content"></div>
+        </div>
+    </div>
+</div>
+
+<div id="details-event-modal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="details-event-modal-content"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/js/Events.js")"></script>
+}
