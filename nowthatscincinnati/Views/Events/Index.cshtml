@@ -4,59 +4,43 @@
     ViewData["Title"] = "Events";
 }
 
-<h1>Events</h1>
-
-<p>
-    <button id="create-event-btn" class="btn btn-primary" data-url="@Url.Action("Create")">Create New</button>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Venue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                <a class="details-event-btn" href="#" data-url="Events/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Venue)
-            </td>
-            <td class="description">
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <img class="list-img details-event-btn" src="@item.Image.Url" data-url="Events/Details/@item.Id" />
-            </td>
-            <td class="btn-group">
-                <button class="edit-event-btn btn btn-primary aux-btns" data-url="Events/Edit/@item.Id"><i class="fas fa-edit"></i></button>
-                <button class="delete-event-btn btn btn-danger aux-btns" data-url="Events/Delete/@item.Id"><i class="fas fa-trash-alt"></i></button>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+<div class="table-container" style="padding-top: 75px">
+    <p class="text-center title-text">
+        <span style="margin-left: 30px">ⒺⓋⒺⓃⓉⓈ</span>
+    </p>
+    <p>
+        <button id="create-event-btn" class="btn btn-primary" data-url="@Url.Action("Create")">+ Add Event</button>
+    </p>
+    <table class="table event-table">
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <a class="details-event-btn" href="#" data-url="Events/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                </td>
+                <td>
+                    <img class="list-img details-event-btn" src="@item.Image.Url" data-url="Events/Details/@item.Id" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Venue)
+                </td>
+                <td class="description">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td class="btn-group">
+                    <button class="edit-event-btn btn btn-primary aux-btns" data-url="Events/Edit/@item.Id"><i class="fas fa-edit"></i></button>
+                    <button class="delete-event-btn btn btn-danger aux-btns" data-url="Events/Delete/@item.Id"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+            <tr class="tr-empty"><td></td></tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <div id="create-event-modal" class="modal">
     <div class="modal-dialog">
